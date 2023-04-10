@@ -18,8 +18,8 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
-import com.b4a.krt.end.api.domain.exception.NegocioException;
-import com.b4a.krt.end.domain.exception.EntidadeNaoEncontradaException;
+import com.b4a.krt.end.domain.exception.EntidadeNaoEcontradaException;
+import com.b4a.krt.end.domain.exception.NegocioException;
 
 
 
@@ -65,8 +65,8 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler{
 		return handleExceptionInternal(ex, problema, new HttpHeaders(), status, request);
 	}
 	
-	@ExceptionHandler(EntidadeNaoEncontradaException.class)
-	public ResponseEntity<Object> handleNegocio(EntidadeNaoEncontradaException ex, WebRequest request) {
+	@ExceptionHandler(EntidadeNaoEcontradaException.class)
+	public ResponseEntity<Object> handleNegocio(EntidadeNaoEcontradaException ex, WebRequest request) {
 		HttpStatus status = HttpStatus.NOT_FOUND; // codigo de status 400
 
 		Problema problema = new Problema();

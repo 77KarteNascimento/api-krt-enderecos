@@ -7,7 +7,6 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
@@ -37,9 +36,9 @@ public class Usuario {
 	@Size(max = 255)
 	private String email;
 	
-	@OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
-    @JoinColumn(name = "usuario_id")
+	@OneToMany(mappedBy = "usuario", cascade = CascadeType.ALL)
 	private List<Endereco> enderecos;
 	
+	//(cascade = CascadeType.ALL, orphanRemoval = true)   @JoinColumn(name = "usuario_id")
 
 }
