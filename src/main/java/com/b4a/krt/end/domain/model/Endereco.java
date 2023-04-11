@@ -48,8 +48,7 @@ public class Endereco {
 
     @JsonIgnore
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "usuario_id")
+    @JoinColumn(name = "usuario_id", nullable = false)
     private Usuario usuario;
     
-    //(fetch = FetchType.LAZY) @JoinColumn(name = "usuario_id")
 }

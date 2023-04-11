@@ -3,6 +3,7 @@ package com.b4a.krt.end.api.controller;
 import java.lang.reflect.Field;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 import javax.validation.Valid;
 
@@ -23,7 +24,9 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.b4a.krt.end.domain.exception.EntidadeNaoEcontradaException;
 import com.b4a.krt.end.domain.model.Endereco;
+import com.b4a.krt.end.domain.model.Usuario;
 import com.b4a.krt.end.domain.repository.EnderecoRepository;
+import com.b4a.krt.end.domain.repository.UsuarioRepository;
 import com.b4a.krt.end.domain.service.EnderecoService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
@@ -36,6 +39,11 @@ public class EnderecoController {
 	
 	@Autowired
 	private EnderecoService enderecoService;
+	
+	@Autowired
+	private UsuarioRepository usuarioRepository;
+	
+	
 	
 	
 	@GetMapping
@@ -87,6 +95,26 @@ public class EnderecoController {
 		return ResponseEntity.noContent().build(); 
 		
 	}
+
+	@PostMapping("/usuarios/{usuarioId}/enderecos")
+	public ResponseEntity<Endereco> adicionarEnderecoAoUsuario(@RequestBody Endereco novoEndereco,@PathVariable Long usuarioId) {
+	    
+	    Optional<Usuario> optionalUsuario = usuarioRepository.findById(usuarioId);
+	    if (optionalUsuario.isEmpty()) {
+	        return ResponseEntity.notFound().build();
+	    }
+	    Usuario usuario = optionalUsuario.get();
+
+	   
+	    novoEndereco.setUsuario(usuario);
+	    usuario.getEnderecos().add(novoEndereco);
+	   
+	    usuarioRepository.save(usuario);
+
+	    return ResponseEntity.status(HttpStatus.CREATED)
+	    		.body(novoEndereco);
+	}
+	
 	
 	@PatchMapping("/{enderecoId}")
 	public ResponseEntity<?> atualizarParcial(@PathVariable Long endedrecoId, @RequestBody Map<String, Object> campos) { 
@@ -120,5 +148,7 @@ public class EnderecoController {
 			ReflectionUtils.setField(field, enderecoDestino, novoValor);
 		});
 	}
+	
+
 
 }

@@ -19,15 +19,8 @@ public class EnderecoService {
 	 @Autowired
 	 private UsuarioRepository usuarioRepository;
 	 
+	
 	 public Endereco salvar(Endereco endereco) {
-			Long usuarioId = endereco.getUsuario().getId();
-			
-			Usuario usuario = usuarioRepository.findById(usuarioId)
-					.orElseThrow(() -> new EntidadeNaoEcontradaException(
-							String.format("Não existe cadastro de usuario com o código %d", usuarioId)));
-			
-			endereco.setUsuario(usuario);
-			
 			return enderecoRepository.save(endereco);
 		}
 
@@ -39,6 +32,16 @@ public class EnderecoService {
 
 	    public void excluir(Long id) {
 	        enderecoRepository.deleteById(id);
+	    }
+	    
+	    public Endereco salvarNovoEndereco(Long idUsuario, Endereco novoEndereco) {
+	        Usuario usuario = usuarioRepository.findById(idUsuario)
+	                .orElseThrow(() -> new EntidadeNaoEcontradaException(
+	                        String.format("Não existe cadastro de usuario com o código %d", idUsuario)));
+	        
+	        novoEndereco.setUsuario(usuario);
+	        
+	        return enderecoRepository.save(novoEndereco);
 	    }
 
 }

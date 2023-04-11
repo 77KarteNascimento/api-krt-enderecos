@@ -1,5 +1,6 @@
 package com.b4a.krt.end.domain.model;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.CascadeType;
@@ -37,8 +38,8 @@ public class Usuario {
 	private String email;
 	
 	@OneToMany(mappedBy = "usuario", cascade = CascadeType.ALL)
-	private List<Endereco> enderecos;
+	private List<Endereco> enderecos = new ArrayList<>();
 	
-	//(cascade = CascadeType.ALL, orphanRemoval = true)   @JoinColumn(name = "usuario_id")
+	
 
 }

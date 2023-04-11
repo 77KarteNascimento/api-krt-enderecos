@@ -70,10 +70,6 @@ public class UsuarioController {
 		return ResponseEntity.ok(usuario); 
 	}
 	
-	@PostMapping("/{idUsuario}/enderecos")
-    public void adicionarEndereco(@PathVariable Long idUsuario, @RequestBody Endereco endereco) {
-        usuarioService.adicionarEndereco(idUsuario, endereco);
-    }
 	
 	
 	@DeleteMapping("/{usuarioId}")
